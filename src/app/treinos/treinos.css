@@ -1,0 +1,218 @@
+.treinos-page {
+  padding-top: calc(var(--nav-height) + 24px);
+  padding-bottom: calc(var(--bottom-nav-height) + 24px);
+  min-height: 100vh;
+}
+
+.treinos-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-xl);
+  gap: var(--space-md);
+}
+
+.treinos-sub {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: -8px;
+}
+
+.treinos-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: var(--space-xl);
+}
+
+.treinos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--space-md);
+}
+
+/* Workout Card */
+.workout-card { padding: var(--space-lg); }
+
+.wc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+}
+
+.wc-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.wc-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.wc-fav {
+  font-size: 1.3rem;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: transform var(--transition-spring);
+}
+.wc-fav:hover { transform: scale(1.2); }
+
+.wc-preview {
+  display: flex;
+  gap: 6px;
+  margin-bottom: var(--space-md);
+  align-items: center;
+}
+
+.wc-preview-thumb {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+}
+
+.wc-more {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+}
+
+.wc-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* Create Workout */
+.create-workout { padding-top: var(--space-xl); }
+
+.cw-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-xl);
+  margin-top: var(--space-lg);
+}
+
+.cw-selected, .cw-browser {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.cw-section-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: var(--space-md);
+  color: var(--text-secondary);
+}
+
+.cw-empty {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: var(--space-2xl);
+}
+
+.cw-exercise-list, .cw-browse-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cw-exercise-item, .cw-browse-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-fast);
+}
+
+.cw-browse-item { cursor: pointer; }
+.cw-browse-item:hover { border-color: var(--border-hover); }
+.cw-browse-item.added { opacity: 0.5; }
+
+.cw-order {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.cw-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.cw-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cw-item-name {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cw-item-cat {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.cw-item-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.cw-move, .cw-remove {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  font-size: 0.7rem;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.cw-move:hover { background: var(--bg-surface-hover); }
+.cw-move:disabled { opacity: 0.3; cursor: not-allowed; }
+.cw-remove { color: var(--coral-400); }
+.cw-remove:hover { background: rgba(244, 63, 94, 0.15); }
+
+@media (max-width: 768px) {
+  .treinos-header { flex-direction: column; }
+  .treinos-grid { grid-template-columns: 1fr; }
+  .cw-layout { grid-template-columns: 1fr; }
+  .cw-selected, .cw-browser { max-height: none; }
+}

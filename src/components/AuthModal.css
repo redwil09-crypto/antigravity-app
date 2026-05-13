@@ -1,0 +1,108 @@
+.auth-modal {
+  max-width: 440px;
+  position: relative;
+  overflow: visible;
+}
+
+.auth-header {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-xl) var(--space-lg);
+}
+
+.auth-logo {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: var(--space-md);
+  filter: drop-shadow(0 0 12px rgba(163, 230, 53, 0.5));
+}
+
+.auth-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.auth-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.auth-form {
+  padding: 0 var(--space-xl) var(--space-lg);
+}
+
+.level-selector {
+  display: flex;
+  gap: 8px;
+}
+
+.level-btn {
+  flex: 1;
+  padding: 10px 8px;
+  border-radius: var(--radius-md);
+  font-size: 0.78rem;
+  font-weight: 600;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.level-btn:hover {
+  border-color: var(--border-hover);
+}
+
+.level-btn.active {
+  border-color: var(--primary-600);
+  background: rgba(163, 230, 53, 0.12);
+  color: var(--primary-400);
+}
+
+.auth-footer {
+  text-align: center;
+  padding: var(--space-lg) var(--space-xl) var(--space-xl);
+  border-top: 1px solid var(--border-color);
+}
+
+.auth-switch {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.auth-switch-btn {
+  color: var(--primary-400);
+  font-weight: 600;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+}
+
+.auth-switch-btn:hover {
+  text-decoration: underline;
+}
+
+.auth-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: none;
+}
+
+.auth-close:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-hover);
+}
