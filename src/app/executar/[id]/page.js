@@ -128,9 +128,18 @@ export default function ExecutarPage() {
           <p className="exec-ready-info">{totalExercises} exercícios · ~{Math.ceil(workoutExercises.reduce((a, e) => a + (e.exercise?.duration || 30) + (e.restSeconds || 30), 0) / 60)} min</p>
           <div className="exec-ready-list">
             {workoutExercises.map((e, i) => (
-              <div key={i} className="exec-ready-item">
-                <span className="exec-ready-num">{i + 1}</span>
-                <span>{e.exercise.name}</span>
+              <div key={i} className="exec-ready-item-visual">
+                <div className="exec-ready-thumb-wrap">
+                  <img src={e.exercise.gif} alt={e.exercise.name} className="exec-ready-thumb" />
+                  <span className="exec-ready-num">{i + 1}</span>
+                </div>
+                <div className="exec-ready-item-info">
+                  <h4 className="exec-ready-item-name">{e.exercise.name}</h4>
+                  <div className="exec-ready-item-meta">
+                    <span>🎯 {e.exercise.reps} reps</span>
+                    <span>⏱️ {e.exercise.duration}s</span>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
