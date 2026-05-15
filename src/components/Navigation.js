@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useApp } from '@/context/AppContext';
 import './Navigation.css';
 
 const navItems = [
@@ -15,9 +16,17 @@ const navItems = [
 
 export default function Navigation() {
   const pathname = usePathname();
+  const { user } = useApp();
 
   // Hide nav during workout execution
   if (pathname.startsWith('/executar')) return null;
+
+  const filteredNavItems = navItems.filter(item => {
+    if (!user?.isLoggedIn && ['/treinos', '/historico', '/perfil'].includes(item.href)) {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <>
@@ -29,7 +38,7 @@ export default function Navigation() {
             <span className="logo-text">Treinando com Will</span>
           </Link>
           <nav className="desktop-nav">
-            {navItems.map(item => (
+            {filteredNavItems.map(item => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -44,7 +53,7 @@ export default function Navigation() {
 
       {/* Mobile Bottom Bar */}
       <nav className="bottom-nav glass">
-        {navItems.map(item => (
+        {filteredNavItems.map(item => (
           <Link
             key={item.href}
             href={item.href}

@@ -136,9 +136,24 @@ function CreateWorkoutView({ onBack }) {
 
 export default function TreinosContent() {
   const searchParams = useSearchParams();
-  const { workouts, deleteWorkout, toggleFavorite } = useApp();
+  const { workouts, deleteWorkout, toggleFavorite, user } = useApp();
   const [showCreate, setShowCreate] = useState(searchParams.get('new') === 'true');
   const [filter, setFilter] = useState('all');
+
+  if (!user.isLoggedIn) {
+    return (
+      <div className="treinos-page">
+        <div className="container" style={{ textAlign: 'center', paddingTop: '100px' }}>
+          <div className="empty-state">
+            <div className="empty-state-icon">🔒</div>
+            <div className="empty-state-title">Acesso Restrito</div>
+            <div className="empty-state-desc">Faça login para criar e visualizar seus planos de treino personalizados.</div>
+            <Link href="/" className="btn btn-primary">Voltar para o Início</Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (showCreate) return (
     <div className="treinos-page"><div className="container"><CreateWorkoutView onBack={() => setShowCreate(false)} /></div></div>

@@ -4,7 +4,21 @@ import { categories } from '@/data/exercises';
 import './historico.css';
 
 export default function HistoricoPage() {
-  const { history } = useApp();
+  const { history, user } = useApp();
+
+  if (!user.isLoggedIn) {
+    return (
+      <div className="historico-page">
+        <div className="container" style={{ textAlign: 'center', paddingTop: '100px' }}>
+          <div className="empty-state">
+            <div className="empty-state-icon">🔒</div>
+            <div className="empty-state-title">Acesso Restrito</div>
+            <div className="empty-state-desc">Faça login para ver seu histórico de treinos.</div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const formatDate = (iso) => {
     const d = new Date(iso);

@@ -59,7 +59,11 @@ export function AppProvider({ children }) {
       }
       
       // 2. Fetch Workouts with Exercises
-      const { data: wData } = await supabase.from('workouts').select('*, exercises:workout_exercises(*)').order('created_at', { ascending: false });
+      const { data: wData } = await supabase
+        .from('workouts')
+        .select('*, exercises:workout_exercises(*)')
+        .eq('user_id', authUser.id)
+        .order('created_at', { ascending: false });
       if (wData) {
         const parsedWorkouts = wData.map(w => ({
           id: w.id,
@@ -76,7 +80,11 @@ export function AppProvider({ children }) {
       }
 
       // 3. Fetch History
-      const { data: hData } = await supabase.from('history').select('*').order('completed_at', { ascending: false });
+      const { data: hData } = await supabase
+        .from('history')
+        .select('*')
+        .eq('user_id', authUser.id)
+        .order('completed_at', { ascending: false });
       if (hData) setHistory(hData.map(h => ({
         id: h.id,
         workoutId: h.workout_id,
@@ -88,7 +96,11 @@ export function AppProvider({ children }) {
       })));
 
       // 4. Fetch Weight History
-      const { data: whData } = await supabase.from('weight_history').select('*').order('created_at', { ascending: false });
+      const { data: whData } = await supabase
+        .from('weight_history')
+        .select('*')
+        .eq('user_id', authUser.id)
+        .order('created_at', { ascending: false });
       if (whData) setWeightHistory(whData);
     } catch (e) { 
       console.error('Error fetching data from Supabase:', e); 
