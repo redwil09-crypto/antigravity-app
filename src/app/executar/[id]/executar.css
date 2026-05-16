@@ -38,73 +38,35 @@
 }
 
 .exec-ready-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  margin: 24px 0;
-  max-height: 40vh;
+  text-align: left;
+  margin-bottom: var(--space-xl);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  max-height: 300px;
   overflow-y: auto;
-  padding-right: 8px;
 }
 
-.exec-ready-item-visual {
+.exec-ready-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  background: rgba(255, 255, 255, 0.03);
-  padding: 12px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-color);
-}
-
-.exec-ready-thumb-wrap {
-  position: relative;
-  flex-shrink: 0;
-}
-
-.exec-ready-thumb {
-  width: 60px;
-  height: 60px;
-  border-radius: var(--radius-md);
-  object-fit: cover;
-  border: 1px solid var(--border-color);
+  gap: 12px;
+  padding: 8px;
+  font-size: 0.88rem;
 }
 
 .exec-ready-num {
-  position: absolute;
-  top: -6px;
-  left: -6px;
-  width: 20px;
-  height: 20px;
-  background: var(--gradient-primary);
-  border-radius: var(--radius-full);
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.exec-ready-item-info {
-  flex: 1;
-  text-align: left;
-}
-
-.exec-ready-item-name {
-  font-size: 0.9rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: var(--text-primary);
-}
-
-.exec-ready-item-meta {
-  display: flex;
-  gap: 12px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-full);
   font-size: 0.75rem;
-  color: var(--text-muted);
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 /* Active Workout */

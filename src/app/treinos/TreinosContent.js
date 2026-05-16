@@ -179,14 +179,37 @@ export default function TreinosContent() {
         )}
         {filtered.length > 0 ? (
           <div className="treinos-grid">
-            {filtered.map(workout => (
-              <WorkoutCard 
-                key={workout.id} 
-                workout={workout} 
-                onDelete={deleteWorkout} 
-                onFavorite={toggleFavorite} 
-              />
-            ))}
+            {filtered.map(workout => {
+              const exCount = workout.exercises?.length || 0;
+              const totalDuration = workout.exercises?.reduce((acc, e) => {
+                const ex = exercises.find(x => x.id === e.exerciseId);
+                return acc + (ex?.duration || 30) + (e.restSeconds || 30);
+              }, 0) || 0;
+              return (
+                <div key={workout.id} className="card workout-card">
+                  <div className="wc-header">
+                    <div>
+                      <h3 className="wc-name">{workout.name}</h3>
+                      <span className="wc-meta">{exCount} exercícios · ~{Math.ceil(totalDuration / 60)} min</span>
+                    </div>
+                    <button className="wc-fav" onClick={() => toggleFavorite(workout.id)}>
+                      {workout.favorite ? '⭐' : '☆'}
+                    </button>
+                  </div>
+                  <div className="wc-preview">
+                    {workout.exercises?.slice(0, 4).map((e, i) => {
+                      const ex = exercises.find(x => x.id === e.exerciseId);
+                      return ex ? <img key={i} src={ex.gif} alt={ex.name} className="wc-preview-thumb" /> : null;
+                    })}
+                    {exCount > 4 && <span className="wc-more">+{exCount - 4}</span>}
+                  </div>
+                  <div className="wc-actions">
+                    <Link href={`/executar/${workout.id}`} className="btn btn-primary" style={{ flex: 1 }}>▶️ Iniciar</Link>
+                    <button className="btn btn-danger btn-icon" onClick={() => deleteWorkout(workout.id)} title="Excluir">🗑️</button>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         ) : (
           <div className="empty-state">
@@ -196,96 +219,6 @@ export default function TreinosContent() {
             {filter === 'all' && <button className="btn btn-primary" onClick={() => setShowCreate(true)}>➕ Criar Treino</button>}
           </div>
         )}
-      </div>
-    </div>
-  );
-}
-
-function WorkoutCard({ workout, onDelete, onFavorite }) {
-  const [expanded, setExpanded] = useState(false);
-  
-  const exCount = workout.exercises?.length || 0;
-  const totalDuration = workout.exercises?.reduce((acc, e) => {
-    const ex = exercises.find(x => x.id === e.exerciseId);
-    return acc + (ex?.duration || 30) + (e.restSeconds || 30);
-  }, 0) || 0;
-
-  // Get unique categories involved
-  const workoutCategories = useMemo(() => {
-    const cats = new Set();
-    workout.exercises?.forEach(e => {
-      const ex = exercises.find(x => x.id === e.exerciseId);
-      if (ex) {
-        const cat = categories.find(c => c.id === ex.category);
-        if (cat) cats.add(cat.name);
-      }
-    });
-    return Array.from(cats);
-  }, [workout.exercises]);
-
-  return (
-    <div className={`card workout-card-premium ${expanded ? 'expanded' : ''}`}>
-      <div className="wc-header">
-        <div className="wc-info">
-          <h3 className="wc-name">{workout.name}</h3>
-          <div className="wc-meta-row">
-            <span className="wc-meta-item">🏋️ {exCount} exs</span>
-            <span className="wc-meta-item">⏱️ ~{Math.ceil(totalDuration / 60)} min</span>
-            {workoutCategories.length > 0 && (
-              <span className="wc-meta-item">🎯 {workoutCategories.slice(0, 2).join(', ')}{workoutCategories.length > 2 ? '...' : ''}</span>
-            )}
-          </div>
-        </div>
-        <button className="wc-fav" onClick={() => onFavorite(workout.id)}>
-          {workout.favorite ? '⭐' : '☆'}
-        </button>
-      </div>
-
-      <div className="wc-body">
-        <div className="wc-preview-scroll">
-          {workout.exercises?.map((e, i) => {
-            const ex = exercises.find(x => x.id === e.exerciseId);
-            if (!ex) return null;
-            return (
-              <div key={i} className="wc-mini-card">
-                <img src={ex.gif} alt={ex.name} className="wc-mini-gif" />
-                <span className="wc-mini-name">{ex.name}</span>
-              </div>
-            );
-          })}
-        </div>
-        
-        {expanded && (
-          <div className="wc-expanded-content animate-fade-in">
-            <div className="wc-divider" />
-            <h4 className="wc-summary-title">Resumo do Treino</h4>
-            <div className="wc-exercise-list-detail">
-              {workout.exercises?.map((e, i) => {
-                const ex = exercises.find(x => x.id === e.exerciseId);
-                return (
-                  <div key={i} className="wc-detail-item">
-                    <span className="wc-detail-order">{i + 1}</span>
-                    <span className="wc-detail-name">{ex?.name}</span>
-                    <span className="wc-detail-meta">{e.restSeconds}s descanso</span>
-                  </div>
-                );
-              })}
-            </div>
-            {workout.description && <p className="wc-description">{workout.description}</p>}
-          </div>
-        )}
-      </div>
-
-      <div className="wc-footer">
-        <button className="btn btn-ghost btn-sm" onClick={() => setExpanded(!expanded)}>
-          {expanded ? '🔼 Ocultar Detalhes' : '🔽 Ver Detalhes'}
-        </button>
-        <div className="wc-actions-main">
-          <button className="btn btn-danger btn-icon btn-sm" onClick={() => onDelete(workout.id)}>🗑️</button>
-          <Link href={`/executar/${workout.id}`} className="btn btn-primary">
-            ▶️ Iniciar Treino
-          </Link>
-        </div>
       </div>
     </div>
   );
