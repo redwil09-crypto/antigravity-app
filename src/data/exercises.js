@@ -203,7 +203,7 @@ let idCounter = 1;
 const exercises = [];
 
 Object.entries(exerciseFiles).forEach(([categoryId, files]) => {
-  files.slice(0, 6).forEach(file => {
+  files.forEach(file => {
     const name = cleanName(file);
     const level = assignLevel(name);
     const tips = generateTips(categoryId, name);

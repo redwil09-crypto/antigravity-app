@@ -6,10 +6,30 @@ import { treinosBase } from '@/data/treinos_base';
 import { exercises as allExercises } from '@/data/exercises';
 import './explorar.css';
 
+// Mapeia a categoria do treino_base para a(s) categoria(s) de exercícios GIF
+const CATEGORY_MAP = {
+  'Peito': ['peito'],
+  'Costas': ['costas'],
+  'Ombros': ['ombro'],
+  'Bíceps': ['biceps'],
+  'Tríceps': ['triceps'],
+  'Pernas': ['membros-inferiores'],
+  'Glúteos': ['membros-inferiores'],
+  'Abdômen': ['abdominal'],
+  'Abdomen': ['abdominal'],
+  'Trapézio': ['trapezio'],
+  'Antebraço': ['antebraco'],
+  // Divisões e especiais podem usar qualquer categoria
+  'Divisão ABC': null,
+  'Divisão ABCD': null,
+  'Mensal': null,
+  'Especial': null,
+};
+
 export default function ExplorarContent() {
   const router = useRouter();
   const { createWorkout, showToast, user } = useApp();
-  const [activeTab, setActiveTab] = useState('muscle'); // muscle, division, monthly, special
+  const [activeTab, setActiveTab] = useState('muscle');
 
   const filteredTreinos = useMemo(() => {
     return treinosBase.filter(t => t.type === activeTab);
@@ -23,13 +43,38 @@ export default function ExplorarContent() {
 
     try {
       const normalize = (s) => s ? s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim() : "";
-      
+
+      // Determina as categorias de GIF válidas para este treino
+      const allowedCategories = CATEGORY_MAP[treino.category] || null;
+
       const mappedExercises = treino.exercises.map(ex => {
         const pdfName = normalize(ex.name);
-        const match = allExercises.find(dbEx => {
+
+        // Filtra exercícios pela categoria correta, se aplicável
+        const searchPool = allowedCategories
+          ? allExercises.filter(dbEx => allowedCategories.includes(dbEx.category))
+          : allExercises;
+
+        // Busca match exato primeiro, depois parcial
+        let match = searchPool.find(dbEx => {
           const dbName = normalize(dbEx.name);
-          return dbName.includes(pdfName) || pdfName.includes(dbName);
+          return dbName === pdfName;
         });
+
+        if (!match) {
+          match = searchPool.find(dbEx => {
+            const dbName = normalize(dbEx.name);
+            return dbName.includes(pdfName) || pdfName.includes(dbName);
+          });
+        }
+
+        // Se não encontrou na categoria correta, busca em todas como fallback
+        if (!match && allowedCategories) {
+          match = allExercises.find(dbEx => {
+            const dbName = normalize(dbEx.name);
+            return dbName.includes(pdfName) || pdfName.includes(dbName);
+          });
+        }
 
         if (match) {
           return {
@@ -64,8 +109,6 @@ export default function ExplorarContent() {
   };
 
   const handleStart = async (treino) => {
-    // Para iniciar direto, primeiro "criamos" ele temporariamente ou salvamos
-    // Mas o fluxo mais fácil é salvar e redirecionar
     await handleImport(treino);
     router.push('/treinos');
   };
@@ -88,19 +131,19 @@ export default function ExplorarContent() {
           className={`tab-btn ${activeTab === 'division' ? 'active' : ''}`}
           onClick={() => setActiveTab('division')}
         >
-          📅 Divisões (ABC/D)
+          📊 Divisões (ABC/D)
         </button>
         <button 
           className={`tab-btn ${activeTab === 'monthly' ? 'active' : ''}`}
           onClick={() => setActiveTab('monthly')}
         >
-          🗓️ Por Mês
+          📅 Por Mês
         </button>
         <button 
           className={`tab-btn ${activeTab === 'weekly' ? 'active' : ''}`}
           onClick={() => setActiveTab('weekly')}
         >
-          ✨ Especiais
+          ⭐ Especiais
         </button>
       </div>
 
@@ -113,7 +156,7 @@ export default function ExplorarContent() {
               <p className="plano-desc">{treino.description || 'Treino completo com foco em resultados máximos.'}</p>
               
               <div className="plano-meta">
-                <span>📂 {treino.exercises.length} Exercícios</span>
+                <span>📋 {treino.exercises.length} Exercícios</span>
                 <span>⏱️ ~45-60 min</span>
               </div>
 
