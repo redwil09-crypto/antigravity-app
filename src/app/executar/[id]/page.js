@@ -45,8 +45,7 @@ export default function ExecutarPage() {
   const startExercise = useCallback(() => {
     if (!currentItem) return;
     setPhase('exercise');
-    setTimeLeft(currentItem.exercise.duration || 30);
-    setIsPaused(true); // Começa pausado para o usuário ler
+    setIsPaused(false);
   }, [currentItem]);
 
   const startRest = useCallback(() => {
@@ -66,25 +65,19 @@ export default function ExecutarPage() {
       const nextIdx = currentIndex + 1;
       setCurrentIndex(nextIdx);
       setPhase('exercise');
-      const next = workoutExercises[nextIdx];
-      setTimeLeft(next?.exercise?.duration || 30);
-      setIsPaused(true); // Começa pausado para o usuário ler o próximo
+      setIsPaused(false);
     }
-  }, [currentIndex, totalExercises, workoutExercises]);
+  }, [currentIndex, totalExercises]);
 
   // Timer
   useEffect(() => {
-    if (phase === 'ready' || phase === 'complete' || isPaused) return;
+    if (phase !== 'rest' || isPaused) return;
 
     timerRef.current = setInterval(() => {
       setTimeLeft(prev => {
         if (prev <= 1) {
           clearInterval(timerRef.current);
-          if (phase === 'exercise') {
-            setTimeout(startRest, 300);
-          } else if (phase === 'rest') {
-            setTimeout(nextExercise, 300);
-          }
+          setTimeout(nextExercise, 300);
           return 0;
         }
         return prev - 1;
@@ -92,7 +85,7 @@ export default function ExecutarPage() {
     }, 1000);
 
     return () => clearInterval(timerRef.current);
-  }, [phase, isPaused, startRest, nextExercise]);
+  }, [phase, isPaused, nextExercise]);
 
   const handleComplete = () => {
     const duration = Math.round((Date.now() - startTime) / 1000);
@@ -188,9 +181,11 @@ export default function ExecutarPage() {
       <div className="exec-header">
         <button className="btn btn-ghost" onClick={() => router.push('/treinos')}>✕</button>
         <span className="exec-counter">Exercício {currentIndex + 1} de {totalExercises}</span>
-        <button className="btn btn-ghost" onClick={() => setIsPaused(!isPaused)}>
-          {isPaused ? '▶️' : '⏸️'}
-        </button>
+        {phase === 'rest' && (
+          <button className="btn btn-ghost" onClick={() => setIsPaused(!isPaused)}>
+            {isPaused ? '▶️' : '⏸️'}
+          </button>
+        )}
       </div>
 
       {phase === 'rest' ? (
