@@ -1,0 +1,466 @@
+/* ============================================
+   REFUNDINI SHOWCASE — Premium Styles
+   ============================================ */
+
+.showcase {
+  position: relative;
+  max-width: 1200px;
+  margin: var(--space-3xl) auto;
+  padding: 0 var(--space-lg);
+  overflow: hidden;
+}
+
+.showcaseGlow {
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(163, 230, 53, 0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.showcaseGlow2 {
+  position: absolute;
+  bottom: -100px;
+  left: -100px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.04) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+/* Header */
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.labelBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  border-radius: var(--radius-full);
+  padding: 5px 14px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #fb7185;
+  text-transform: uppercase;
+}
+
+.labelDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f43f5e;
+  animation: pulseDot 2s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+.labelSource {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: var(--space-sm);
+}
+
+.title span {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 640px;
+}
+
+/* Tabs */
+.tabsWrapper {
+  margin-bottom: var(--space-xl);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tabsWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  padding-bottom: 4px;
+  min-width: max-content;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.tab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--tab-color, var(--primary-500));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.tab:hover {
+  border-color: var(--tab-color, var(--border-hover));
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.tabActive {
+  background: transparent;
+  border-color: var(--tab-color, var(--primary-500));
+  color: #fff;
+  box-shadow: 0 0 20px color-mix(in srgb, var(--tab-color, var(--primary-500)) 25%, transparent);
+}
+
+.tabActive::before {
+  opacity: 0.15;
+}
+
+.tabIcon {
+  font-size: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.tabName {
+  position: relative;
+  z-index: 1;
+}
+
+/* Content Area */
+.content {
+  animation: fadeInContent 0.4s ease forwards;
+}
+
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.groupIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  background: color-mix(in srgb, var(--group-color, var(--primary-500)) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--group-color, var(--primary-500)) 25%, transparent);
+  flex-shrink: 0;
+}
+
+.groupName {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.groupCount {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Exercise List */
+.exerciseList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: var(--space-xl);
+}
+
+.exerciseItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--gradient-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+  animation: fadeInItem 0.35s ease forwards;
+  animation-delay: var(--item-delay, 0s);
+  opacity: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes fadeInItem {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.exerciseItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--item-color, var(--primary-500));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.exerciseItem:hover {
+  border-color: color-mix(in srgb, var(--item-color, var(--primary-500)) 30%, transparent);
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.exerciseItem:hover::before {
+  opacity: 1;
+}
+
+.exerciseHighlight {
+  background: linear-gradient(145deg,
+    color-mix(in srgb, var(--item-color, var(--primary-500)) 8%, transparent),
+    var(--bg-card)
+  );
+  border-color: color-mix(in srgb, var(--item-color, var(--primary-500)) 20%, transparent);
+}
+
+.exerciseHighlight::before {
+  opacity: 0.6;
+}
+
+/* Rank Number */
+.exerciseRank {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.rankNumber {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.exerciseHighlight .rankNumber {
+  background: linear-gradient(135deg, var(--item-color, var(--primary-500)), #fff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Exercise Details */
+.exerciseDetails {
+  flex: 1;
+  min-width: 0;
+}
+
+.exerciseTitle {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+  line-height: 1.3;
+}
+
+.exerciseFocus {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Star Badge */
+.starBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.2);
+  color: #facc15;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Philosophy Card */
+.philosophyCard {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-xl);
+  background: linear-gradient(145deg, rgba(163, 230, 53, 0.04), rgba(163, 230, 53, 0.01));
+  border: 1px solid rgba(163, 230, 53, 0.12);
+  border-radius: var(--radius-lg);
+  margin-top: var(--space-md);
+}
+
+.philosophyIcon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.philosophyContent h4 {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--primary-400);
+  margin-bottom: 4px;
+}
+
+.philosophyContent p {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .tab {
+    padding: 8px 14px;
+    font-size: 0.76rem;
+  }
+
+  .tabIcon {
+    font-size: 0.9rem;
+  }
+
+  .groupIcon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
+  }
+
+  .groupName {
+    font-size: 1.1rem;
+  }
+
+  .exerciseItem {
+    padding: var(--space-sm) var(--space-md);
+    gap: var(--space-sm);
+  }
+
+  .exerciseRank {
+    width: 30px;
+    height: 30px;
+  }
+
+  .rankNumber {
+    font-size: 0.8rem;
+  }
+
+  .exerciseTitle {
+    font-size: 0.84rem;
+  }
+
+  .starBadge {
+    font-size: 0.6rem;
+    padding: 3px 8px;
+  }
+
+  .philosophyCard {
+    padding: var(--space-md);
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .labelRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .exerciseItem {
+    flex-wrap: wrap;
+  }
+
+  .starBadge {
+    margin-left: 46px;
+    margin-top: -4px;
+  }
+}
