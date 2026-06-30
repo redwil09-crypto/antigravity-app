@@ -214,7 +214,6 @@ Object.entries(exerciseFiles).forEach(([categoryId, files]) => {
     const level = assignLevel(name);
     const tips = generateTips(categoryId, name);
     const id = idCounter++;
-    // Deterministic values based on id (avoids hydration mismatch from Math.random)
     const duration = 30 + (id * 7 % 20);
     const reps = 10 + (id * 3 % 6);
     exercises.push({
@@ -230,6 +229,19 @@ Object.entries(exerciseFiles).forEach(([categoryId, files]) => {
     });
   });
 });
+
+// Deduplica por nome: mantém só o primeiro de cada nome
+const seen = new Set();
+const deduped = [];
+exercises.forEach(ex => {
+  const key = ex.name.toLowerCase().trim();
+  if (!seen.has(key)) {
+    seen.add(key);
+    deduped.push(ex);
+  }
+});
+exercises.length = 0;
+exercises.push(...deduped);
 
 export { categories, exercises };
 export default exercises;
