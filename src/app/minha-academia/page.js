@@ -2,7 +2,6 @@
 import React, { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
-import Navigation from '@/components/Navigation';
 import { exercises, categories } from '@/data/exercises';
 import './minha-academia.css';
 
@@ -100,7 +99,6 @@ export default function MinhaAcademia() {
 
   return (
     <>
-      <Navigation />
       <div className="academia-container fade-in">
         <div className="academia-header">
           <h1>Academia</h1>

@@ -2,7 +2,6 @@
 import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
-import Navigation from '@/components/Navigation';
 import './scaner.css';
 
 export default function GymScanner() {
@@ -115,7 +114,6 @@ export default function GymScanner() {
 
   return (
     <>
-      <Navigation />
       <div className="scanner-container fade-in">
         
         {/* Step indicator */}
