@@ -1,7 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { categories, exercises } from '@/data/exercises';
+import { categories, equipmentTypes, exercises } from '@/data/exercises';
 import ExerciseDetailModal from '@/components/ExerciseDetailModal';
 import './biblioteca.css';
 
@@ -13,6 +13,7 @@ export default function BibliotecaContent() {
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   const [selectedLevel, setSelectedLevel] = useState('');
+  const [selectedEquipment, setSelectedEquipment] = useState('');
   const [selectedExercise, setSelectedExercise] = useState(
     initialExercise ? exercises.find(e => e.id === parseInt(initialExercise)) : null
   );
@@ -22,9 +23,10 @@ export default function BibliotecaContent() {
       if (search && !ex.name.toLowerCase().includes(search.toLowerCase())) return false;
       if (selectedCategory && ex.category !== selectedCategory) return false;
       if (selectedLevel && ex.level !== selectedLevel) return false;
+      if (selectedEquipment && ex.equipment !== selectedEquipment) return false;
       return true;
     });
-  }, [search, selectedCategory, selectedLevel]);
+  }, [search, selectedCategory, selectedLevel, selectedEquipment]);
 
   return (
     <div className="biblioteca-page">
@@ -66,13 +68,26 @@ export default function BibliotecaContent() {
                 ))}
               </div>
             </div>
+
+            <div className="filter-group">
+              <span className="filter-label">Equipamento:</span>
+              <div className="filter-chips">
+                <button className={`chip ${!selectedEquipment ? 'active' : ''}`} onClick={() => setSelectedEquipment('')}>Todos</button>
+                {equipmentTypes.map(eq => (
+                  <button key={eq.id} className={`chip ${selectedEquipment === eq.id ? 'active' : ''}`}
+                    onClick={() => setSelectedEquipment(selectedEquipment === eq.id ? '' : eq.id)}>
+                    {eq.icon} {eq.name}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="bib-results-header">
           <span className="bib-count">{filtered.length} exercício{filtered.length !== 1 ? 's' : ''}</span>
-          {(search || selectedCategory || selectedLevel) && (
-            <button className="btn btn-ghost" onClick={() => { setSearch(''); setSelectedCategory(''); setSelectedLevel(''); }}>
+          {(search || selectedCategory || selectedLevel || selectedEquipment) && (
+            <button className="btn btn-ghost" onClick={() => { setSearch(''); setSelectedCategory(''); setSelectedLevel(''); setSelectedEquipment(''); }}>
               Limpar filtros ✕
             </button>
           )}
@@ -95,6 +110,7 @@ export default function BibliotecaContent() {
                       {ex.level}
                     </span>
                     <span className="badge badge-category">{categories.find(c => c.id === ex.category)?.name}</span>
+                    <span className="badge badge-equipment">{equipmentTypes.find(e => e.id === ex.equipment)?.icon} {equipmentTypes.find(e => e.id === ex.equipment)?.name}</span>
                   </div>
                   <div className="bib-card-meta">
                     <span>⏱️ {ex.duration}s</span>
