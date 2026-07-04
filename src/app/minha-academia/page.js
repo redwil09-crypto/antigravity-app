@@ -157,7 +157,7 @@ export default function MinhaAcademia() {
                   </div>
                 </div>
 
-                <div className="scan-cta-card" onClick={() => router.push('/minha-academia/scanner')}>
+                <div className="scan-cta-card" onClick={() => router.push('/minha-academia/scaner')}>
                   <div className="scan-cta-icon">📸</div>
                   <div className="scan-cta-content">
                     <div className="scan-cta-title">Escanear Equipamentos</div>

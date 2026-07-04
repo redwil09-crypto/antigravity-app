@@ -3,7 +3,7 @@ import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useApp } from '@/context/AppContext';
 import Navigation from '@/components/Navigation';
-import './scanner.css';
+import './scaner.css';
 
 export default function GymScanner() {
   const router = useRouter();
@@ -147,7 +147,7 @@ export default function GymScanner() {
         {!isProcessing && !results && (
           <>
             <div className="scanner-header">
-              <h1>📸 Scanner de Academia</h1>
+              <h1>📸 Scaner de Academia</h1>
               <p>Fotografe os equipamentos ou áreas da academia <strong>{currentGym?.name}</strong></p>
             </div>
 
