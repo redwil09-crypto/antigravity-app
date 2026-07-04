@@ -6,7 +6,7 @@ export const maxDuration = 60; // Configuração para Vercel (se aplicável), pe
 
 export async function POST(req) {
   try {
-    const { prompt, userLevel } = await req.json();
+    const { prompt, userLevel, currentGymInventory } = await req.json();
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
@@ -37,6 +37,19 @@ export async function POST(req) {
     }
 
     // Prompt do sistema
+    let inventoryInstruction = '';
+    if (currentGymInventory && currentGymInventory.length > 0) {
+      const equipNames = currentGymInventory.map(eq => eq.name).join(', ');
+      inventoryInstruction = `
+[ATENÇÃO - MODO ACADEMIA RESTRITA]
+O usuário está treinando em uma academia com um INVENTÁRIO LIMITADO de equipamentos. 
+Você SÓ PODE RECOMENDAR exercícios que sejam possíveis de fazer com os seguintes equipamentos disponíveis:
+[${equipNames}, Peso Corporal, Halteres (se listado)]
+
+SUBSTITUIÇÃO AUTOMÁTICA OBRIGATÓRIA:
+Se você pensou em recomendar um exercício (ex: Peck Deck) mas a academia não tem essa máquina, você DEVE substituir automaticamente por um exercício equivalente que use os equipamentos disponíveis (ex: Crucifixo com Halteres). NUNCA recomende uma máquina que não está na lista.`;
+    }
+
     const systemInstruction = `Você é o "Treinador Will" (Will AI). Você tem acesso a um REPERTÓRIO REAL de 277 exercícios.
     
 REGRAS PARA TREINOS DE ELITE:
@@ -49,6 +62,7 @@ CATÁLOGO REAL:
 ${realExerciseNames.join(', ')}
 
 O nível do usuário é: ${userLevel || 'Intermediário'}.
+${inventoryInstruction}
 
 FORMATO OBRIGATÓRIO (JSON APENAS):
 {

@@ -12,6 +12,7 @@ const navItems = [
   { href: '/treinos', label: 'Meus Planos', icon: '🏋️' },
   { href: '/historico', label: 'Histórico', icon: '📊' },
   { href: '/treinador-ia', label: 'Treinador IA', icon: '🤖' },
+  { href: '/minha-academia', label: 'Minha Academia', icon: '🏢' },
   { href: '/perfil', label: 'Perfil', icon: '👤' },
 ];
 

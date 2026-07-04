@@ -6,7 +6,7 @@ import { exercises as allExercises } from '@/data/exercises';
 
 export default function TreinadorClient() {
   const router = useRouter();
-  const { user, createWorkout, showToast } = useApp();
+  const { user, createWorkout, showToast, gyms, currentGymId } = useApp();
   const [prompt, setPrompt] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [generatedWorkout, setGeneratedWorkout] = useState(null);
@@ -24,10 +24,17 @@ export default function TreinadorClient() {
     setGeneratedWorkout(null);
 
     try {
+      const currentGym = gyms.find(g => g.id === currentGymId);
+      const inventory = currentGym ? currentGym.inventory : null;
+
       const res = await fetch('/api/gerar-treino', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, userLevel: user.level })
+        body: JSON.stringify({ 
+          prompt, 
+          userLevel: user.level,
+          currentGymInventory: inventory
+        })
       });
 
       const data = await res.json();
@@ -104,12 +111,19 @@ export default function TreinadorClient() {
     }
   };
 
+  const currentGym = gyms.find(g => g.id === currentGymId);
+
   return (
     <div className="treinador-container">
       <div className="treinador-header">
         <div className="will-avatar-large">W</div>
         <h1>Will AI - Treinador Elite</h1>
         <p>Gere treinos únicos ou planejamentos semanais completos de 60 minutos.</p>
+        {currentGym && (
+          <div className="gym-badge" style={{marginTop: '0.5rem', display: 'inline-block', padding: '0.2rem 0.6rem', background: 'rgba(220,38,38,0.2)', color: 'var(--primary-red)', borderRadius: '20px', fontSize: '0.85rem'}}>
+            📍 Otimizando para: {currentGym.name}
+          </div>
+        )}
       </div>
 
       <div className="chat-container">

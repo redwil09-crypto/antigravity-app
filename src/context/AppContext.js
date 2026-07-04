@@ -34,12 +34,15 @@ function clearLocalData() {
 const LS_WORKOUTS = 'antigravity_workouts';
 const LS_HISTORY = 'antigravity_history';
 const LS_WEIGHT = 'antigravity_weight';
+const LS_GYMS = 'antigravity_gyms';
 
 export function AppProvider({ children }) {
   const [user, setUser] = useState(defaultUser);
   const [workouts, setWorkouts] = useState([]);
   const [history, setHistory] = useState([]);
   const [weightHistory, setWeightHistory] = useState([]);
+  const [gyms, setGyms] = useState([]);
+  const [currentGymId, setCurrentGymId] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [toast, setToast] = useState(null);
 
@@ -57,6 +60,14 @@ export function AppProvider({ children }) {
       if (h) setHistory(JSON.parse(h));
       const wh = localStorage.getItem(LS_WEIGHT);
       if (wh) setWeightHistory(JSON.parse(wh));
+      const g = localStorage.getItem(LS_GYMS);
+      if (g) {
+        const parsedGyms = JSON.parse(g);
+        setGyms(parsedGyms);
+        if (parsedGyms.length > 0 && !currentGymId) {
+          setCurrentGymId(parsedGyms[0].id);
+        }
+      }
     } catch {}
   }, []);
 
@@ -389,11 +400,41 @@ export function AppProvider({ children }) {
     }
   }, [user, weightHistory, showToast, updateProfile]);
 
+  const saveGymProfile = useCallback((gym) => {
+    setGyms(prev => {
+      const isUpdate = prev.find(g => g.id === gym.id);
+      let updated;
+      if (isUpdate) {
+        updated = prev.map(g => g.id === gym.id ? gym : g);
+      } else {
+        updated = [...prev, gym];
+      }
+      try { localStorage.setItem(LS_GYMS, JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+    if (!currentGymId) setCurrentGymId(gym.id);
+  }, [currentGymId]);
+
+  const deleteGymProfile = useCallback((id) => {
+    setGyms(prev => {
+      const updated = prev.filter(g => g.id !== id);
+      try { localStorage.setItem(LS_GYMS, JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+    if (currentGymId === id) {
+      setCurrentGymId(null);
+    }
+  }, [currentGymId]);
+
+  const selectGym = useCallback((id) => {
+    setCurrentGymId(id);
+  }, []);
+
   const value = {
-    user, workouts, history, weightHistory, toast, isLoaded,
+    user, workouts, history, weightHistory, gyms, currentGymId, toast, isLoaded,
     login, guestLogin, logout, updateProfile,
     createWorkout, deleteWorkout, toggleFavorite,
-    addToHistory, logWeight, showToast,
+    addToHistory, logWeight, saveGymProfile, deleteGymProfile, selectGym, showToast,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
