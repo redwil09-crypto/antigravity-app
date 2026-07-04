@@ -11,7 +11,8 @@ export default function GymScanner() {
   const [images, setImages] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [results, setResults] = useState(null);
-  const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
+  const galleryInputRef = useRef(null);
 
   const currentGym = gyms.find(g => g.id === currentGymId);
 
@@ -151,20 +152,12 @@ export default function GymScanner() {
             </div>
 
             <div className="upload-options">
-              <button className="upload-btn upload-btn-camera" onClick={() => {
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*';
-                input.capture = 'environment';
-                input.multiple = true;
-                input.onchange = (e) => handleFileChange(e);
-                input.click();
-              }}>
+              <button className="upload-btn upload-btn-camera" onClick={() => cameraInputRef.current?.click()}>
                 <span className="upload-btn-icon">📷</span>
                 <span className="upload-btn-text">Abrir Câmera</span>
                 <span className="upload-btn-sub">Fotografe equipamento por equipamento</span>
               </button>
-              <button className="upload-btn upload-btn-gallery" onClick={() => fileInputRef.current?.click()}>
+              <button className="upload-btn upload-btn-gallery" onClick={() => galleryInputRef.current?.click()}>
                 <span className="upload-btn-icon">🖼️</span>
                 <span className="upload-btn-text">Galeria</span>
                 <span className="upload-btn-sub">Escolha fotos já salvas</span>
@@ -173,7 +166,16 @@ export default function GymScanner() {
                 type="file" 
                 multiple 
                 accept="image/*" 
-                ref={fileInputRef} 
+                capture="environment" 
+                ref={cameraInputRef} 
+                onChange={handleFileChange} 
+                style={{display: 'none'}}
+              />
+              <input 
+                type="file" 
+                multiple 
+                accept="image/*" 
+                ref={galleryInputRef} 
                 onChange={handleFileChange} 
                 style={{display: 'none'}}
               />
