@@ -40,7 +40,7 @@ const equipmentTypes = [
 function assignEquipment(filename, categoryId) {
   const name = filename.toLowerCase();
 
-  if (/\b(cross|cabo|polia|pulley)\b/.test(name) || name.includes('crossover')) return 'cross-cabo';
+  if (/\b(cross|cabo|polia|pulley)\b/.test(name) || name.includes('crossover') || name.includes('corss')) return 'cross-cabo';
   if (/\b(smith|smth|smit)\b/.test(name)) return 'smith';
   if (/\b(maquina|aparelho|graviton|gravitan|cadeira|maschine)\b/.test(name)) return 'maquina';
   if (/\b(leg.?press|mesa.?flex)\b/.test(name)) return 'maquina';
@@ -56,9 +56,7 @@ function assignEquipment(filename, categoryId) {
   if (/\b(rosca.*direta|rosca.*dietr|rosca.*diert)\b/.test(name)) return 'barra';
   if (/\b(elevacao.*lateral|elevacao.*frontal)\b/.test(name)) return 'halteres';
   if (/\b(crucifixo.*inverso)\b/.test(name)) return 'halteres';
-  if (/\b(kick.?back)\b/.test(name)) return 'halteres';
-  if (/\b(triceps.*testa|triceps.*frances)\b/.test(name)) return 'halteres';
-  if (/\b(triceps.*patada|triceps.*unilateral|triceps.*extencao)\b/.test(name)) return 'halteres';
+  if (/\b(elevacao.*lateral.*(?:sentado|inclinado)|elevacao.*letaral)\b/.test(name)) return 'halteres';
   if (/\b(agachamento.*sumo.*livre|agachamento.*livre)\b/.test(name)) return 'peso-corporal';
   if (/\b(elevacao.*pelvica.*livre|afundo.*livre)\b/.test(name)) return 'peso-corporal';
   if (/\bsupino.*(?:reto|declinado|inclinado|vertical).*(?:pegada|banco)\b/.test(name) && !name.includes('halteres')) return 'barra';
