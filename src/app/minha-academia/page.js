@@ -103,7 +103,7 @@ export default function MinhaAcademia() {
       <Navigation />
       <div className="academia-container fade-in">
         <div className="academia-header">
-          <h1>Minha Academia</h1>
+          <h1>Academia</h1>
           <div className="gym-selector-wrapper">
             {gyms.length > 0 && (
               <select 
