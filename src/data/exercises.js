@@ -38,25 +38,27 @@ const equipmentTypes = [
 ];
 
 function assignEquipment(filename, categoryId) {
-  const name = filename.toLowerCase();
+  let name = filename.toLowerCase();
+  name = name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  if (/\b(cross|cabo|polia|pulley)\b/.test(name) || name.includes('crossover') || name.includes('corss')) return 'cross-cabo';
+  if (/\b(cross|cabo|polia|pulley)\b/.test(name) || name.includes('crossover') || name.includes('corss') || name.includes('croos')) return 'cross-cabo';
   if (/\b(smith|smth|smit)\b/.test(name)) return 'smith';
   if (/\b(maquina|aparelho|graviton|gravitan|cadeira|maschine)\b/.test(name)) return 'maquina';
   if (/\b(leg.?press|mesa.?flex)\b/.test(name)) return 'maquina';
-  if (/\b(voador|scort|articulad)\b/.test(name)) return 'maquina';
+  if (/(?:^|\s|\.)(voador|scort)\b/.test(name) || name.includes('articulad')) return 'maquina';
   if (/\b(halteres|haltrers|haltres|alteres|dumbbell)\b/.test(name)) return 'halteres';
   if (/\b(kettlebell|kettibel)\b/.test(name)) return 'halteres';
   if (/\bcorda\b/.test(name)) return 'corda';
   if (/\belastico\b/.test(name)) return 'outros';
   if (/\bmedball\b/.test(name)) return 'outros';
   if (/\bbarra\b/.test(name) && !name.includes('barra livre')) return 'barra';
+  if (name.includes('langhantel')) return 'barra';
 
   if (/\b(rosca.*alternada|rosca.*concentrada|rosca.*neutra)\b/.test(name)) return 'halteres';
   if (/\b(rosca.*direta|rosca.*dietr|rosca.*diert)\b/.test(name)) return 'barra';
   if (/\b(elevacao.*lateral|elevacao.*frontal)\b/.test(name)) return 'halteres';
   if (/\b(crucifixo.*inverso)\b/.test(name)) return 'halteres';
-  if (/\b(elevacao.*lateral.*(?:sentado|inclinado)|elevacao.*letaral)\b/.test(name)) return 'halteres';
+  if (/\bremada.*serrote\b/.test(name)) return 'halteres';
   if (/\b(agachamento.*sumo.*livre|agachamento.*livre)\b/.test(name)) return 'peso-corporal';
   if (/\b(elevacao.*pelvica.*livre|afundo.*livre)\b/.test(name)) return 'peso-corporal';
   if (/\bsupino.*(?:reto|declinado|inclinado|vertical).*(?:pegada|banco)\b/.test(name) && !name.includes('halteres')) return 'barra';
