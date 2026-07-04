@@ -123,7 +123,8 @@ export default function MinhaAcademia() {
         </div>
 
         {currentGym ? (
-          <div className="dashboard-grid">
+          <>
+            <div className="dashboard-grid">
             {/* Esquerda: Perfil e Score */}
             <div className="profile-column">
               <div className="profile-card">
@@ -258,6 +259,7 @@ export default function MinhaAcademia() {
               </div>
             )}
           </div>
+          </>
 
         ) : (
           <div className="empty-state">
