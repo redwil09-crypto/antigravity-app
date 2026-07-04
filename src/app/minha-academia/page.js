@@ -157,11 +157,16 @@ export default function MinhaAcademia() {
                   </div>
                 </div>
 
+                <div className="scan-cta-card" onClick={() => router.push('/minha-academia/scanner')}>
+                  <div className="scan-cta-icon">📸</div>
+                  <div className="scan-cta-content">
+                    <div className="scan-cta-title">Escanear Equipamentos</div>
+                    <div className="scan-cta-desc">Fotografe sua academia e deixe a IA identificar tudo</div>
+                  </div>
+                  <div className="scan-cta-arrow">→</div>
+                </div>
+                <div className="profile-actions-divider" />
                 <div className="profile-actions">
-                  <button className="btn-scan" onClick={() => router.push('/minha-academia/scanner')}>
-                    📸 Escanear Equipamentos
-                  </button>
-                  {/* Botão temporário para MVP deletar academia */}
                   <button className="btn btn-secondary" onClick={() => deleteGymProfile(currentGym.id)}>
                     Remover Academia
                   </button>

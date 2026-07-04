@@ -117,21 +117,58 @@ export default function GymScanner() {
       <Navigation />
       <div className="scanner-container fade-in">
         
+        {/* Step indicator */}
+        {!isProcessing && !results && (
+          <div className="step-indicator">
+            <div className="step active">
+              <span className="step-num">1</span>
+              <span className="step-label">Fotografar</span>
+            </div>
+            <div className="step-line" />
+            <div className="step">
+              <span className="step-num">2</span>
+              <span className="step-label">Analisar IA</span>
+            </div>
+            <div className="step-line" />
+            <div className="step">
+              <span className="step-num">3</span>
+              <span className="step-label">Confirmar</span>
+            </div>
+            <div className="step-line" />
+            <div className="step">
+              <span className="step-num">4</span>
+              <span className="step-label">Salvar</span>
+            </div>
+          </div>
+        )}
+
         {/* Etapa 1: Upload */}
         {!isProcessing && !results && (
           <>
             <div className="scanner-header">
               <h1>📸 Scanner de Academia</h1>
-              <p>Fotografe os equipamentos ou áreas da sua academia ({currentGym?.name})</p>
+              <p>Fotografe os equipamentos ou áreas da academia <strong>{currentGym?.name}</strong></p>
             </div>
 
-            <div 
-              className="upload-area"
-              onClick={() => fileInputRef.current?.click()}
-            >
-              <div className="upload-icon">📷</div>
-              <div className="upload-text">Toque para abrir a câmera ou galeria</div>
-              <div className="upload-subtext">Você pode enviar várias fotos de uma vez</div>
+            <div className="upload-options">
+              <button className="upload-btn upload-btn-camera" onClick={() => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.capture = 'environment';
+                input.multiple = true;
+                input.onchange = (e) => handleFileChange(e);
+                input.click();
+              }}>
+                <span className="upload-btn-icon">📷</span>
+                <span className="upload-btn-text">Abrir Câmera</span>
+                <span className="upload-btn-sub">Fotografe equipamento por equipamento</span>
+              </button>
+              <button className="upload-btn upload-btn-gallery" onClick={() => fileInputRef.current?.click()}>
+                <span className="upload-btn-icon">🖼️</span>
+                <span className="upload-btn-text">Galeria</span>
+                <span className="upload-btn-sub">Escolha fotos já salvas</span>
+              </button>
               <input 
                 type="file" 
                 multiple 
@@ -164,18 +201,62 @@ export default function GymScanner() {
 
         {/* Etapa 2: Processando */}
         {isProcessing && (
-          <div className="processing-state fade-in">
-            <div className="scanner-animation">
-              <div className="scanner-line"></div>
+          <>
+            <div className="step-indicator">
+              <div className="step done">
+                <span className="step-num">✓</span>
+                <span className="step-label">Fotografar</span>
+              </div>
+              <div className="step-line" />
+              <div className="step active">
+                <span className="step-num">2</span>
+                <span className="step-label">Analisar IA</span>
+              </div>
+              <div className="step-line" />
+              <div className="step">
+                <span className="step-num">3</span>
+                <span className="step-label">Confirmar</span>
+              </div>
+              <div className="step-line" />
+              <div className="step">
+                <span className="step-num">4</span>
+                <span className="step-label">Salvar</span>
+              </div>
             </div>
-            <h2>IA Analisando Equipamentos...</h2>
-            <p style={{color: '#a1a1aa'}}>Buscando em nosso banco de dados da Biblioteca Elite.</p>
-          </div>
+            <div className="processing-state fade-in">
+              <div className="scanner-animation">
+                <div className="scanner-line"></div>
+              </div>
+              <h2>IA Analisando Equipamentos...</h2>
+              <p style={{color: '#a1a1aa'}}>Buscando em nosso banco de dados da Biblioteca Elite.</p>
+            </div>
+          </>
         )}
 
         {/* Etapa 3: Resultados */}
         {results && !isProcessing && (
           <div className="results-state fade-in">
+            <div className="step-indicator">
+              <div className="step done">
+                <span className="step-num">✓</span>
+                <span className="step-label">Fotografar</span>
+              </div>
+              <div className="step-line" />
+              <div className="step done">
+                <span className="step-num">✓</span>
+                <span className="step-label">Analisar IA</span>
+              </div>
+              <div className="step-line" />
+              <div className="step active">
+                <span className="step-num">3</span>
+                <span className="step-label">Confirmar</span>
+              </div>
+              <div className="step-line" />
+              <div className="step">
+                <span className="step-num">4</span>
+                <span className="step-label">Salvar</span>
+              </div>
+            </div>
             <div className="results-header">
               <h2>Resultados da Análise</h2>
               <button className="btn btn-secondary" onClick={() => {setResults(null); setImages([]);}}>
